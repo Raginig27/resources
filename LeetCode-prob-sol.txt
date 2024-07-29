@@ -1,0 +1,1253 @@
+Product of array except self 
+
+==============
+var productExceptSelf = function(nums) {
+    const n = nums.length;
+    let res =[];
+    let pref = 1;
+    let suf = 1;
+    for (let i = 0; i < n; i++) {
+        res[i] = pref;
+        pref*=nums[i]
+    }
+    for (let i = n - 1; i >= 0; i--) {
+        res[i] *= suf;
+        suf*=nums[i]
+    }
+    return res;
+};
+============
+
+var productExceptSelf = function(nums) {
+    let r = [1]
+    for(let i = 1;i<nums.length;i++) r.push(nums[i-1]*r[i-1])
+    let right = 1
+    for(i=nums.length-1;i>=0;i--){
+        r[i] *= right
+        right*=nums[i]
+    }
+    return r
+};
+
+============================================
+
+
+
+var productExceptSelf = function(nums) {
+    const len = nums.length
+    let pre = 1
+    let suf = 1
+    let arr = Array(len).fill(0)
+    for (let i = 0; i < len; i++) {
+        arr[i] = pre
+        pre *= nums[i] 
+    }
+    for (let i = len-1; i >= 0; i--) {
+        arr[i] *= suf
+        suf *= nums[i]
+    }
+    return arr
+};
+
+===============================================
+
+let arr = [1,2,3,4]
+let arr2 = []
+for(let i=0;i<arr.length;i++) {
+    let prod = 1;
+    for( j=0; j<arr.length; j++ ){
+        if(i!==j){
+           prod*=arr[j]
+        }
+    }
+    arr2.push(prod)
+}
+console.log(arr2)
+
+2. Merge Strings Alternately
+
+var mergeAlternately = function(word1, word2) {
+    res = [];
+    for(let i=0; i<Math.max(word1.length, word2.length); i++){
+        if(word1[i]) res.push(word1[i])
+        if(word2[i]) res.push(word2[i])
+    }
+    return res.join('');
+};
+
+
+3.Greatest Common Divisor of Strings : https://medium.com/@robertsevan/leetcode-problem-1071-greatest-common-divisor-of-strings-leetcode-75-5fb2b909778e#f860
+
+var gcdOfStrings = function(str1, str2) {
+    if (str1 + str2 !== str2 + str1) {
+        return "";
+    }
+
+    const gcd = (a, b) => {
+    while (a !== 0) {
+        let temp = a;
+        a = b % a;
+        b = temp;
+    }
+    return b;
+};
+    return str1.slice(0, gcd(str1.length, str2.length));
+};
+===============
+
+var gcdOfStrings = function(str1, str2) {
+    if ((str1 + str2) !== (str2 + str1)) {
+        return ""
+    }
+
+    let len1 = str1.length
+    let len2 = str2.length
+
+    while (len2 != 0) {
+        let temp = len2
+        len2 = len1 % len2
+        len1 = temp
+    }
+
+    return str1.substring(0, len1)
+};
+
+4.Two Sum
+
+function twoSum(nums, target) {
+    const numMap = {};
+
+    for (let i = 0; i < nums.length; i++) {
+        const complement = target - nums[i];
+        if (complement in numMap) {
+            return [numMap[complement], i];
+        }
+        numMap[nums[i]] = i;
+    }
+
+    return null; // If no such pair exists
+}
+
+================================================
+
+var twoSum = function(nums, target) {
+    // let storage = {}
+    // for(let [index, num] of nums.entries()){
+    //     if(storage[num] !== undefined) return [storage[num], index];
+    //     storage[target-num] = index;
+    // }
+    let res = []
+    for (let i =0; i<nums.length; i++) {
+        for (let j=i+1; j<nums.length; j++) {
+            if(nums[i] + nums[j] === target) {
+                res.push(i,j)
+            }
+        }
+    }
+    return res;
+};
+
+5.Kids With the Greatest Number of Candies
+
+var kidsWithCandies = function (candies, extraCandies) {
+    const maxNum = Math.max(...candies)
+    const result = []
+    for (let i = 0; i < candies.length; i++) {
+        result.push((candies[i] + extraCandies) >= maxNum)
+    }
+    return result
+};
+
+var kidsWithCandies = function(candies, extraCandies) {
+    let res = []
+    for (let i=0; i<candies.length; i++) {
+        let sum = candies[i] + extraCandies;
+        let max = Math.max(...candies);
+        let flg = false;
+        if(sum >= max) {
+            flg= true;
+        }
+        res.push(flg);
+    }
+    return res;
+};
+
+6.605. Can Place Flowers
+
+var canPlaceFlowers = function (flowerbed, n) {
+    flowerbed = [0, ...flowerbed, 0]
+    for (let i = 1; i <= flowerbed.length - 2; i++) {
+        if (flowerbed[i] == 0 && flowerbed[i - 1] == 0 && flowerbed[i + 1] == 0) {
+            flowerbed[i] = 1
+            n--
+        }
+    }
+
+    if (n > 0) {
+        return false
+    }
+
+    return true
+};
+
+===========================
+
+var canPlaceFlowers = function(flowerbed, n) {
+let result = true;
+  let counter = 0;
+  if(n == 0) {
+    return result = true
+  }
+  if(flowerbed.length == 1)  {
+    result = flowerbed[0] == 0 ? true : false
+  } else {
+      for(let i=0; i<=flowerbed.length; i++) {
+          if(flowerbed[i] == 0) {
+            if(i == 0) {
+                if(flowerbed[i+1] == 0) {
+                    counter +=  1;
+                    flowerbed[i] = 1;
+                }
+            } else {
+            if(flowerbed.length -1 == i && flowerbed[i-1] == 0) {
+                counter +=  1;
+                flowerbed[i] = 1;
+            }
+            if(flowerbed[i+1] == 0  && flowerbed[i-1] == 0) {
+                counter +=  1;
+                flowerbed[i] = 1
+            }
+            }
+        }
+      }
+      result = counter >= n ? true : false;
+  } 
+    return result;
+};
+
+=======================================
+ 7. Reverse Vowels of a String
+ 
+ /**
+ * @param {string} s
+ * @return {string}
+ */
+ var reverseVowels = function(s) {
+    let i=0;
+    let j=s.length-1;
+    let str = s.split("");
+    let vowels = ["a","e","i","o","u","A","I","O","E","U"]
+    while(i<j){
+        if(!vowels.includes(str[i])){
+            i++;
+        }
+        else if(!vowels.includes(str[j])){
+            j--;
+        }else {
+            let char = str[i];
+            str[i] = str[j]
+            str[j] = char;
+            i++;
+            j--;
+        }
+    }
+    return str.join("");
+};
+// const reverseVowels = function(s) {
+//    let vowlArr = ['A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'];
+//    let revStr = s.split("");
+//    let left = 0;
+//    let right = s.length-1
+//    console.log(revStr, left, right)
+//    while(left<=right){
+//     if(vowlArr.indexOf(s[left]) < 0){
+//         left++;
+//         continue;
+//     }
+//    if(vowlArr.indexOf(s[right]) < 0){
+//         right--;
+//         continue;
+//    }
+//     [revStr[left], revStr[right]] = [revStr[right], revStr[left]]
+//     console.log(revStr)
+//     left++;
+//     right--;
+//    }
+//     return revStr.join('');
+// };
+
+8.Increasing Triplet Subsequence : https://www.linkedin.com/pulse/finding-increasing-triplet-subsequence-array-luqman-shaban-5omtf/
+
+function increasingTriplet(nums) {
+    let first = Infinity;
+    let second = Infinity;
+
+    for (const num of nums) {
+        if (num <= first) {
+            first = num;
+        } else if (num <= second) {
+            second = num;
+        } else {
+            return true;
+        }
+    }
+    return false;
+}
+
+9.
+
+let index = 0;
+    for(let i=0; i<nums.length; i++) {
+        if(nums[i] !== 0) {
+            nums[index] = nums[i];
+            index++;
+        }
+    }
+    for(let i=index; i<nums.length; i++) {
+        nums[i] = 0;
+    }
+    console.log(nums)
+    return nums;
+	
+var moveZeroes = function(nums) {
+    let count = 0; 
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] !== 0) {
+            let temp = nums[i];
+            nums[i] = nums[count];
+            nums[count] = temp;
+            count++;
+        }
+    }
+    return nums;
+};
+
+10.  Max Number of K-Sum Pairs
+
+var maxOperations = function(nums, k) {
+    nums.sort((a, b) => a - b);
+
+    let ans = 0;
+    let start = 0;
+    let end = nums.length - 1;
+
+    while (start < end) {
+        let sum = nums[start] + nums[end];  
+
+        if (sum === k) {  // If the sum equals k, it's a valid pair
+            ans++;  // Increment the counter
+            start++;  // Move the start pointer to the right
+            end--;  // Move the end pointer to the left
+        } else if (sum > k) {  // If the sum is greater than k, decrease the end pointer
+            end--;
+        } else {  // If the sum is less than k, increase the start pointer
+            start++;
+        }
+    }
+
+    return ans;  // Return the total number of valid pairs
+};
+
+11. Is Subsequence
+
+var isSubsequence = function(s, t) {
+    let i = 0, j =0;
+    while(i<s.length && j<t.length) {
+       if(s[i] === t[j]) {
+                i++;
+        }
+        j++;
+    }
+    return i === s.length;
+}
+
+var isSubsequence = function(s, t) {
+    let sIndex = 0;
+    const sLength = s.length;
+    for(let tIndex = 0; tIndex < t.length; tIndex++){
+        if(t[tIndex] === s[sIndex]){
+            sIndex++;
+        }
+    }
+    return sIndex >= sLength;
+};
+
+12. Container With Most Water
+
+var maxArea = function(arry) {
+	let p1=0, p2=arry.length-1, maxArea = 0;
+	while(p1<p2){
+		let length = Math.min(arry[p1], arry[p2]);
+		let width = p2-p1;
+		let area = length*width;
+		maxArea = Math.max(area, maxArea);
+		if(arry[p1]<=arry[p2]){
+			p1++;
+		}
+		else{
+			p2--
+		}
+	}
+	return maxArea;
+}
+
+
+13. 
+
+var findMaxAverage = function(nums, k) {
+  let sum = 0
+
+  for (let i = 0; i < k; i++) {
+    sum += nums[i]
+  }
+
+  let res = sum;
+
+  for (let i = k; i < nums.length; i++) {
+    sum += nums[i] - nums[i - k];
+    res = Math.max(sum, res);
+  }
+
+  return res / k;
+};
+========================
+
+var findMaxAverage = function(nums, k) {
+    let l=0; r=k
+    let sum=0
+    for(let i=0;i<k;i++) {
+        sum+=nums[i]
+    }
+    let max = sum
+    while(r<nums.length) {
+        sum = sum+nums[r]-nums[l]
+        l++
+        r++
+        max = Math.max(sum, max)
+    }
+    return max/k
+};
+
+==================
+
+    var findMaxAverage = function(nums, k) {
+    let left = 0, right = k-1, sum = 0;
+    for(let i=left; i<=right; i++) {
+        sum += nums[i];
+    }
+    let temp = sum;
+    while(right!==nums.length-1) {
+        temp = temp - nums[left++];
+        temp = temp + nums[++right];
+        if(temp>sum) sum = temp;
+    }
+    return sum/k;
+
+14. Maximum Number of Vowels in a Substring of Given Length
+
+var maxVowels = function(s, k) {
+    let count = 0;
+    let maxCount = 0;
+
+    // Helper function to check if a character is a vowel
+    const isVowel = (c) => 'aeiou'.includes(c);
+
+    // Initialize the first window
+    for (let i = 0; i < k; i++) {
+        if (isVowel(s[i])) {
+            count++;
+        }
+    }
+    maxCount = count;
+
+    // Slide the window
+    for (let i = k; i < s.length; i++) {
+        if (isVowel(s[i])) {
+            count++;
+        }
+        if (isVowel(s[i - k])) {
+            count--;
+        }
+        maxCount = Math.max(maxCount, count);
+    }
+
+    return maxCount;
+};
+
+15. Max Consecutive Ones
+
+var findMaxConsecutiveOnes = function(nums) {
+    let count = 0;
+    let maxCount = 0;
+    
+    for(let i = 0; i < nums.length; i++) {
+        if(nums[i] === 1) {
+            count++;
+            if(count > maxCount) {
+                maxCount = count;
+            }
+        } else {
+            count = 0;
+        }
+    }
+    
+    return maxCount;
+};
+
+==========================================================
+
+var findMaxConsecutiveOnes = function(nums) {
+    let count = 0, maxCount = [];
+    for(let i =0; i<nums.length; i++) {
+        if(nums[i] === 1) {
+            count++;
+        } else {
+            maxCount.push(count);
+            count = 0;
+        }
+    }
+    maxCount.push(count);
+    return Math.max(...maxCount);
+};
+
+=================
+
+var findMaxConsecutiveOnes = function(nums) {
+    let maxCount = 0;
+    let currentCount = 0;
+    
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] === 1) {
+            currentCount++;
+        } else {
+            currentCount = 0;
+        }
+        if (currentCount > maxCount){
+            maxCount = currentCount;
+        }
+    }
+    
+    return maxCount;
+};
+
+16. Find the Difference of Two Arrays
+
+var findDifference = function(nums1, nums2) {
+    const a = new Set(nums1)
+    const b = new Set (nums2)
+
+    const result=[
+        [...a].filter((num)=>!b.has(num)),
+        [...b].filter((num)=>!a.has(num))
+    ]
+
+    return result
+
+
+==================================================================================
+
+var findDifference = function(nums1, nums2) {
+    let ans1 = [], ans2 = [], res = [];
+    for(let i=0; i<Math.max(nums1.length, nums2.length); i++) {
+        if(!nums2.includes(nums1[i]) && 
+           !ans1.includes(nums1[i]) && 
+           (nums1[i] || nums1[i] == 0)) 
+        {
+            ans1.push(nums1[i])
+        }
+        if(!nums1.includes(nums2[i]) && 
+           !ans2.includes(nums2[i]) && 
+           (nums2[i] || nums2[i] == 0))
+        {
+            ans2.push(nums2[i])
+        }
+    }
+    console.log(ans1, ans2)
+    res.push(ans1, ans2);
+    return res;
+};
+
+17. Maximum Points You Can Obtain from Cards
+
+var maxScore = function(cardPoints, k) {
+    let leftSum = 0, maxSum = 0;
+    let rIndex = cardPoints.length-1;
+    for (let i = 0; i<= k-1; i++){
+        leftSum = leftSum + cardPoints[i]
+    }
+    maxSum = leftSum;
+    for(let i = k-1; i>=0; i--) {
+        leftSum = leftSum - cardPoints[i] + cardPoints[rIndex];
+        rIndex--;
+        maxSum = Math.max(maxSum, leftSum);
+    }
+
+    return maxSum;
+};
+
+18. longest-substring-without-repeating-characters
+
+/// with O(n2)
+var lengthOfLongestSubstring = function(s) {
+    let maxlen = 0;
+
+    for (let i = 0; i < s.length; i++) {
+        let hash = {};
+
+        for (let j = i; j < s.length; j++) {
+            if (hash[s[j]]) break;
+            hash[s[j]] = true;
+            console.log(hash)
+            let len = j - i + 1;
+            maxlen = Math.max(maxlen, len);
+        }
+    }
+
+    return maxlen;
+};
+
+=========
+
+with O(n)
+
+var lengthOfLongestSubstring = function(s) {
+    let maxlen = 0;
+    let charIndexMap = {};
+    let left = 0;
+
+    for (let right = 0; right < s.length; right++) {
+        if (charIndexMap[s[right]] !== undefined && charIndexMap[s[right]] >= left) {
+            left = charIndexMap[s[right]] + 1;
+        }
+
+        charIndexMap[s[right]] = right;
+        maxlen = Math.max(maxlen, right - left + 1);
+    }
+
+    return maxlen;
+};
+
+19.find good pair
+
+var numberOfPairs = function(nums1, nums2, k) {
+    let count = 0;
+    for(let i=0; i<=nums1.length-1; i++) {
+        for(let j=0; j<=nums2.length-1; j++){
+            if(nums1[i]%(nums2[j]*k) === 0) {
+                // res.push([i, j]);
+                count++;
+            }
+        }
+    }
+    // console.log(res)
+    return count;
+};
+
+20.  Max Consecutive Ones III
+
+var longestOnes = function(nums, k) {
+    let maxlen = 0, l = 0, r = 0, zeros = 0;
+    while(r < nums.length) {
+        if(nums[r] == 0) zeros++;
+        if(zeros > k) {
+            if(nums[l] == 0) zeros--;
+            l++;
+        }
+        if(zeros <=k ) {
+            let len = r-l+1;
+            maxlen = Math.max(maxlen, len);
+        }
+        r++;
+    }
+    return maxlen;
+};
+
+================================
+
+var longestOnes = function(nums, k) {
+    let left = 0;
+    let maxLength = 0;
+    let zeroCount = 0;
+
+    for (let right = 0; right < nums.length; right++) {
+        if (nums[right] === 0) {
+            zeroCount++;
+        }
+
+        while (zeroCount > k) {
+            if (nums[left] === 0) {
+                zeroCount--;
+            }
+            left++;
+        }
+
+        maxLength = Math.max(maxLength, right - left + 1);
+    }
+
+    return maxLength;
+};
+
+
+21. Hamming Distance
+
+var hammingDistance = function(x, y) {
+    let xorResult = x ^ y;
+    let distance = 0;
+
+    console.log(xorResult)
+    while (xorResult !== 0) {
+        distance += xorResult & 1;
+        xorResult = xorResult >> 1;
+    }
+
+    return distance;
+};
+
+22. Nim Game
+
+var canWinNim = function(n) {
+    return n % 4 !== 0;
+};
+
+
+23. longest-subarray-of-1s-after-deleting-one-elemen
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var longestSubarray = function(nums) {
+        let prev = 0;
+        let curr = 0;
+        let ans = 0;
+
+        for (let i of nums) {
+            if (i === 1) {
+                curr++;
+            } else {
+                ans = Math.max(ans, curr + prev);
+                prev = curr;
+                curr = 0;
+            }
+        }
+
+        ans = Math.max(ans, curr + prev);
+
+        // If the entire array is 1s, we need to delete one element, hence ans - 1
+        return ans === nums.length ? ans - 1 : ans;
+    }
+	
+======================================
+var longestSubarray = function(nums) {
+    let maxlen = 0, l = 0, r = 0, zeros = 0;
+    while(r < nums.length) {
+        if(nums[r] == 0) zeros++;
+        if(zeros > 1) {
+            if(nums[l] == 0) zeros--;
+            l++;
+        }
+        if(zeros <= 1 ) {
+            let len = r-l;
+            maxlen = Math.max(maxlen, len);
+        }
+        r++;
+    }
+    return maxlen;
+};
+
+24.  Find Pivot Index
+
+var pivotIndex = function(nums) {
+    let totalSum = 0;
+    for (let i=0;i<nums.length; i++){
+        totalSum+= nums[i]
+    }
+      let leftSum = 0
+    for (let i=0;i<nums.length;i++){
+        let rightSum = totalSum - nums[i] - leftSum;
+        if(leftSum == rightSum){
+            return i
+        }
+        leftSum+=nums[i]
+    }
+    return -1
+};
+
+============
+var pivotIndex = function(nums) {
+    let lSum = 0, total = 0;
+    for(let i = 0; i<=nums.length-1; i++) {
+        total = total + nums[i]
+        console.log(total)
+    }
+    for(let i = 0; i<=nums.length-1; i++) {
+        if(2*lSum + nums[i] == total) {
+            return i;
+        }
+        lSum+=nums[i]
+    }
+    return -1;
+};
+
+============
+
+var pivotIndex = function(nums) {
+    let totalSum = 0;
+    let leftSum = 0;
+
+    // Calculate the total sum of the array
+    for (let num of nums) {
+        totalSum += num;
+    }
+
+    // Iterate through the array to find the pivot index
+    for (let i = 0; i < nums.length; i++) {
+        // Check if the current index is the pivot index
+        if (leftSum === totalSum - leftSum - nums[i]) {
+            return i;
+        }
+        // Update the left sum by adding the current element
+        leftSum += nums[i];
+    }
+
+    // Return -1 if no pivot index is found
+    return -1;
+};
+
+
+============
+
+ar pivotIndex = function (nums) {
+    let sum = nums.reduce((acc, num) => acc + num);
+    let leftSum = 0;
+    for (let index = 0; index < nums.length; index++) {
+        if (sum - leftSum - nums[index] === leftSum) {
+            return index
+        }
+        leftSum += nums[index]
+    }
+    return -1
+};
+
+=============
+
+25. Unique Number of Occurrences
+
+var uniqueOccurrences = function(arr) {
+    let countMap = new Map();
+
+    // Loop through the array and count the occurrences of each element
+    arr.forEach(element => {
+        countMap.set(element, (countMap.get(element) || 0) + 1);
+    });
+
+    // Create a Set to store the unique occurrence counts
+    const occurrenceSet = new Set(countMap.values());
+    
+    // Check if the counts are unique
+    return occurrenceSet.size === countMap.size;
+};
+
+
+26.  Buddy Strings
+
+var buddyStrings = function(s, goal) {
+    if (s.length !== goal.length) {
+        return false;
+    }
+    if (s === goal) {
+        const set = new Set(s);
+        return set.size < s.length;
+    }
+    const diff = [];
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] !== goal[i]) {
+            diff.push(i);
+        }
+        if (diff.length > 2) {
+            return false;
+        }
+    }
+    return diff.length === 2 && s[diff[0]] === goal[diff[1]] && s[diff[1]] === goal[diff[0]];
+};
+
+27.Determine if Two Strings Are Close
+
+var closeStrings = function(word1, word2) {
+    // If lengths are different, return false
+    if (word1.length !== word2.length) return false;
+
+    const getFrequencyMap = (word) => {
+        const frequencyMap = new Map();
+        for (let char of word) {
+            frequencyMap.set(char, (frequencyMap.get(char) || 0) + 1);
+        }
+        return frequencyMap;
+    };
+
+    // Get frequency maps for both words
+    const freq1 = getFrequencyMap(word1);
+    const freq2 = getFrequencyMap(word2);
+
+    // Get sets of unique characters
+    const set1 = new Set(word1);
+    const set2 = new Set(word2);
+
+    // Compare sets of unique characters
+    if (set1.size !== set2.size || [...set1].some(char => !set2.has(char))) {
+        return false;
+    }
+
+    // Compare sorted frequency values
+    const sortedFreq1 = [...freq1.values()].sort((a, b) => a - b);
+    const sortedFreq2 = [...freq2.values()].sort((a, b) => a - b);
+
+    return sortedFreq1.join('') === sortedFreq2.join('');
+};
+
+
+===================================================
+
+var closeStrings = function(word1, word2) {
+    if (word1.length !== word2.length) return false;
+
+    const freq1 = new Array(26).fill(0);
+    const freq2 = new Array(26).fill(0);
+    const set1 = new Set();
+    const set2 = new Set();
+
+    // Calculate frequency counts and unique characters for word1 and word2
+    for (let i = 0; i < word1.length; i++) {
+        freq1[word1.charCodeAt(i) - 97]++;
+        freq2[word2.charCodeAt(i) - 97]++;
+        set1.add(word1[i]);
+        set2.add(word2[i]);
+    }
+
+    // Compare unique characters
+    if (set1.size !== set2.size) return false;
+    for (let char of set1) {
+        if (!set2.has(char)) return false;
+    }
+
+    // Compare frequency counts
+    freq1.sort((a, b) => a - b);
+    freq2.sort((a, b) => a - b);
+
+    for (let i = 0; i < 26; i++) {
+        if (freq1[i] !== freq2[i]) return false;
+    }
+
+    return true;
+};
+
+28. . Remove All Adjacent Duplicates In String
+
+var removeDuplicates = function(s) {
+     let stack = [];
+    
+    for (let char of s) {
+        console.log(char, stack)
+        if (stack.length > 0 && stack[stack.length - 1] === char) {
+            stack.pop(); // Remove the last character if it matches the current one
+        } else {
+            stack.push(char); // Add the current character to the stack
+        }
+    }
+    
+    return stack.join(''); //
+};
+
+
+29. 844. Backspace String Compare
+
+Example 1:
+
+Input: s = "ab#c", t = "ad#c"
+Output: true
+Explanation: Both s and t become "ac".
+
+
+var backspaceCompare = function(s, t) {
+    // Function to process the string with backspaces
+    const processString = (str) => {
+        let stack = [];
+        for (let char of str) {
+            if (char === '#') {
+                stack.pop(); // Remove the last character if it's a backspace
+            } else {
+                stack.push(char); // Add the current character to the stack
+            }
+        }
+        return stack.join(''); // Convert the stack to a string
+    };
+
+    // Process both strings
+    const processedS = processString(s);
+    const processedT = processString(t);
+    console.log(processedS, processedT)
+
+    // Compare the final processed strings
+    return processedS === processedT;
+};
+
+30. Removing Stars From a String
+
+var removeStars = function(s) {
+    let stack = [];
+    for(let char of s) {
+        if(char === '*') {
+            stack.pop(char)
+        }else {
+            stack.push(char)
+        }
+    }
+    console.log(stack)
+    return stack.join('');
+};
+
+31. Asteroid collision ==> Need to understand it
+
+ar asteroidCollision = function(asteroids) {
+    let stack = [];
+    for (let asteroid of asteroids) {
+        let collision = false;
+        while (stack.length && asteroid < 0 && stack[stack.length - 1] > 0) {
+            let top = stack[stack.length - 1];
+            if (Math.abs(top) === Math.abs(asteroid)) {
+                // Both asteroids destroy each other
+                stack.pop();
+                collision = true;
+                break;
+            } else if (Math.abs(top) > Math.abs(asteroid)) {
+                // The top asteroid in the stack is larger; the current asteroid is destroyed
+                collision = true;
+                break;
+            } else {
+                // The current asteroid is larger; the top asteroid in the stack is destroyed
+                stack.pop();
+            }
+        }
+        if (!collision) {
+            stack.push(asteroid);
+        }
+    }
+    return stack;
+};
+
+
+
+
+
+
+====================================================
+
+var asteroidCollision = function(asteroids) {
+    const stack = [];
+    
+    for (let asteroid of asteroids) {
+        // Check if the current asteroid is positive or negative
+        if (asteroid > 0) {
+            stack.push(asteroid); // If positive, push it to the stack
+        } else {
+            // If negative, handle the collision with positive asteroids in the stack
+            while (stack.length && stack[stack.length - 1] > 0 && stack[stack.length - 1] < Math.abs(asteroid)) {
+                stack.pop(); // Pop positive asteroids that explode
+            }
+            
+            // After handling the collision, check if the stack is empty or the top asteroid is negative
+            if (!stack.length || stack[stack.length - 1] < 0) {
+                stack.push(asteroid); // If the stack is empty or the top asteroid is negative, push the negative asteroid to the stack
+            } else if (stack[stack.length - 1] === Math.abs(asteroid)) {
+                stack.pop(); // If the top asteroid has the same size as the negative asteroid, both explode
+            }
+        }
+    }
+    
+    return stack;
+};
+
+================================
+
+32. N-th Tribonacci Number
+
+var tribonacci = function(n) {
+    let t = [0, 1, 1];
+    if (n === 0) return 0;
+    if (n === 1 || n === 2) return t[n];
+    for (let i = 3; i <= n; i++) {
+        t[i] = t[i - 1] + t[i - 2] + t[i - 3];
+    }
+    return t[n];
+};
+
+=====================
+
+33. 
+509. Fibonacci Number
+var fib = function(n) {
+    let f = [0, 1];
+    if(n===0) return 0;
+    if(n===1) return 1;
+    for(let i=2; i<n; i++) {
+        f[i] = f[i-2] + f[i-1]
+    }
+    return f[n];
+};
+
+var fib = function(n) {
+    if (n === 0) return 0;
+    if (n === 1) return 1;
+    
+    let a = 0, b = 1, temp;
+    
+    for (let i = 2; i <= n; i++) {
+        temp = a + b;
+        a = b;
+        b = temp;
+    }
+    
+    return b;
+};
+
+====================
+var fib = function(n) {
+    if (n <= 1) {
+        return n; // Base case: return 0 for n = 0 and 1 for n = 1
+    } else {
+        // Recursive case: return the sum of the previous two Fibonacci numbers
+        return fib(n - 1) + fib(n - 2);
+    }
+};
+
+34. minCostClimbingStairs
+
+function minCostClimbingStairs(cost) {
+    let n = cost.length;
+    if (n == 0) return 0;
+    if (n == 1) return cost[0];
+
+    let prev1 = cost[0];
+    let prev2 = cost[1];
+
+    for (let i = 2; i < n; i++) {
+        let current = Math.min(prev1, prev2) + cost[i];
+        prev1 = prev2;
+        prev2 = current;
+    }
+
+    return Math.min(prev1, prev2);
+}
+
+============================
+
+var minCostClimbingStairs = function(cost) {
+    let prev2 = 0, prev1 = 0;
+    for (let i = 2; i <= cost.length; i++) {
+        let current = Math.min(prev1 + cost[i - 1], prev2 + cost[i - 2]);
+        prev2 = prev1;
+        prev1 = current;
+    }
+    return prev1;
+};
+
+===================
+
+
+35. House Robber
+
+var rob = function(nums) {
+    let rob1 = 0
+    let rob2 = 0
+    let temp = 0
+
+    for( let i = 0 ; i < nums.length; i++) {
+        temp = Math.max(nums[i] + rob1, rob2)
+        rob1 = rob2
+        rob2 = temp
+    }
+    return rob2
+};
+
+==============================================
+
+var rob = function(nums) {
+    if (nums.length === 0) return 0;
+    if (nums.length === 1) return nums[0];
+
+    let prev2 = 0; // Represents dp[i-2]
+    let prev1 = 0; // Represents dp[i-1]
+    
+    for (let i = 0; i < nums.length; i++) {
+        let current = Math.max(prev1, prev2 + nums[i]);
+        prev2 = prev1;
+        prev1 = current;
+    }
+
+    return prev1;
+};
+
+
+===========================
+
+36. best-time-to-buy-and-sell-stock-ii
+
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+function maxProfit(prices) {
+    let profit = 0;
+    for (let i = 1; i < prices.length; i++) {
+        // If the price of the current day is greater than the previous day, we buy the stock on the previous day and sell it on the current day.
+        if (prices[i] > prices[i - 1]) {
+            profit += prices[i] - prices[i - 1];
+        }
+    }
+    return profit;
+}
+
+37. Get Equal Substrings Within Budget
+
+var equalSubstring = function(s, t, maxCost) {
+    let left = 0;
+    let maxLength = 0;
+    let totalCost = 0;
+
+    for (let right = 0; right < s.length; right++) {
+        totalCost += Math.abs(s.charCodeAt(right) - t.charCodeAt(right));
+
+        while (totalCost > maxCost) {
+            totalCost -= Math.abs(s.charCodeAt(left) - t.charCodeAt(left));
+            left++;
+        }
+
+        maxLength = Math.max(maxLength, right - left + 1);
+    }
+
+    return maxLength;
+};
+
+38.
+
+
+const array1 = [34, 56, 67, 98];
+const array2 = [43, 34, 67, 65, 12];
+
+// Find common elements in both arrays
+const commonElements = array1.filter(item => array2.includes(item));
+
+// Filter out common elements from both arrays
+const filteredArray1 = array1.filter(item => !commonElements.includes(item));
+const filteredArray2 = array2.filter(item => !commonElements.includes(item));
+
+// Merge the filtered arrays
+const mergedArray = filteredArray1.concat(filteredArray2);
+
+console.log(mergedArray);  // Output: [56, 98, 43, 65, 12]
+
+
+
+
+
+
